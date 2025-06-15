@@ -1,0 +1,86 @@
+﻿<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Torneos | All-In Arena</title>
+  <style>
+    body {
+      background: #0b0b0b;
+      color: #fff;
+      font-family: Arial;
+      padding: 20px;
+    }
+    .torneo {
+      background: #111;
+      border: 2px solid #00ffc3;
+      border-radius: 8px;
+      padding: 20px;
+      margin-bottom: 20px;
+      box-shadow: 0 0 8px #00ffc355;
+    }
+    .torneo h3 {
+      margin-top: 0;
+      color: #00ffc3;
+    }
+    .cerrado {
+      background: #333;
+      color: #777;
+      border-color: #444;
+    }
+    .btn {
+      background: #00ffc3;
+      border: none;
+      padding: 10px;
+      font-weight: bold;
+      border-radius: 5px;
+      margin-top: 10px;
+      cursor: pointer;
+    }
+    .btn:disabled {
+      background: #444;
+      color: #888;
+      cursor: not-allowed;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Torneos Activos</h1>
+  <div id="listaTorneos"></div>
+
+  <script src="torneos-data.js"></script>
+  <script>
+    const lista = document.getElementById("listaTorneos");
+
+    function renderTorneos() {
+      lista.innerHTML = "";
+      const ahora = Date.now();
+
+      for (let torneo of window.torneos) {
+        const tiempoRestante = Math.max(0, Math.floor((torneo.registroCierraEn - ahora) / 1000));
+        if (tiempoRestante === 0) torneo.estado = "cerrado";
+
+        const div = document.createElement("div");
+        div.className = "torneo " + (torneo.estado === "cerrado" ? "cerrado" : "");
+
+        div.innerHTML = `
+          <h3>${torneo.nombre}</h3>
+          ${torneo.estado === "cerrado"
+            ? `<p>⏱ Registro cerrado</p>`
+            : `<p>⏱ Registro cierra en <span>${Math.floor(tiempoRestante / 60)}:${(tiempoRestante % 60).toString().padStart(2, "0")}</span></p>`
+          }
+          <button class="btn" ${torneo.estado === "cerrado" ? "disabled" : ""}>Entrar al torneo</button>
+        `;
+        lista.appendChild(div);
+      }
+    }
+
+    renderTorneos();
+    setInterval(renderTorneos, 1000);
+  </script>
+
+  <script src="copilot-chat.js"></script>
+
+</body>
+</html>

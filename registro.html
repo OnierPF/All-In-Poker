@@ -1,0 +1,110 @@
+﻿<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Registro - All-In Arena</title>
+  <link rel="stylesheet" href="style.css" />
+  <script src="utils.js"></script>
+
+  <!-- Cargar idioma dinámico -->
+  <script>
+    const idioma = localStorage.getItem("idioma") || "es";
+    const script = document.createElement("script");
+    script.src = `idiomas/${idioma}.js`;
+    document.head.appendChild(script);
+  </script>
+</head>
+<body>
+  <header>
+    <h1 id="tituloRegistro">📝 Registro de Usuario</h1>
+    <div id="perfilUsuario" style="margin-top: 10px; color: #00ffc3;"></div>
+    <nav>
+      <a href="index.html">🏠 Lobby</a>
+    </nav>
+  </header>
+
+  <main>
+    <section class="bienvenida">
+      <h2 id="crearCuenta"></h2>
+      <form onsubmit="enviarCodigo(event)" style="margin-bottom: 30px;">
+        <input type="text" id="nombre" required /><br/><br/>
+        <input type="email" id="correo" required /><br/><br/>
+        <input type="password" id="clave" required /><br/><br/>
+        <button type="submit" class="opcion" id="btnGenerar"></button>
+      </form>
+
+      <div id="codigoBox" style="display: none;">
+        <p id="mensajeCodigo"></p>
+        <input type="text" id="codigoIngresado"/><br/><br/>
+        <button class="opcion" id="btnVerificar" onclick="verificarCodigo()"></button>
+      </div>
+
+      <p id="resultado" style="margin-top: 20px;"></p>
+    </section>
+  </main>
+
+  <footer>
+    <p>&copy; 2025 All-In Arena | Hecho con ❤️ en Cuba</p>
+  </footer>
+
+  <script>
+    mostrarPerfilEn("perfilUsuario");
+
+    window.onload = () => {
+      document.getElementById("tituloRegistro").textContent = textos.titulo_registro;
+      document.getElementById("crearCuenta").textContent = textos.crear_cuenta;
+      document.getElementById("nombre").placeholder = textos.nombre;
+      document.getElementById("correo").placeholder = textos.correo;
+      document.getElementById("clave").placeholder = textos.contrasena;
+      document.getElementById("btnGenerar").textContent = textos.generar_codigo;
+      document.getElementById("btnVerificar").textContent = textos.verificar;
+      document.getElementById("codigoIngresado").placeholder = textos.ingresar_codigo;
+    };
+
+    function generarCodigo() {
+      const codigo = Math.floor(100000 + Math.random() * 900000);
+      const expiracion = Date.now() + 5 * 60 * 1000;
+      localStorage.setItem('codigoVerificacion', codigo);
+      localStorage.setItem('expira', expiracion);
+      return codigo;
+    }
+
+    function enviarCodigo(e) {
+      e.preventDefault();
+      const nombre = document.getElementById('nombre').value.trim();
+      const correo = document.getElementById('correo').value.trim();
+
+      localStorage.setItem('nombre', nombre);
+      localStorage.setItem('usuario', correo);
+      if (!localStorage.getItem('fichas')) {
+        localStorage.setItem('fichas', '1000');
+      }
+
+      const codigo = generarCodigo();
+      document.getElementById('codigoBox').style.display = 'block';
+      document.getElementById('mensajeCodigo').innerText = `${textos.codigo_enviado} ${codigo}. ${textos.expira}`;
+      mostrarPerfilEn("perfilUsuario");
+    }
+
+    function verificarCodigo() {
+      const ingresado = document.getElementById('codigoIngresado').value.trim();
+      const guardado = localStorage.getItem('codigoVerificacion');
+      const expira = parseInt(localStorage.getItem('expira'));
+
+      if (Date.now() > expira) {
+        document.getElementById('resultado').innerText = textos.codigo_expirado;
+        return;
+      }
+
+      if (ingresado === guardado) {
+        localStorage.setItem('verificado', 'true');
+        document.getElementById('resultado').innerText = textos.registro_exitoso;
+        mostrarPerfilEn("perfilUsuario");
+      } else {
+        document.getElementById('resultado').innerText = textos.codigo_incorrecto;
+      }
+    }
+  </script>
+</body>
+</html>

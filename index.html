@@ -1,0 +1,128 @@
+﻿<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <title>All-In Poker | Lobby</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background: url('assets/fondo-lobby.jpg') no-repeat center center fixed;
+      background-size: cover;
+      color: #fff;
+    }
+
+    header {
+      text-align: center;
+      padding: 20px 10px;
+      backdrop-filter: blur(6px);
+      background-color: rgba(0, 0, 0, 0.5);
+      color: #00ffc3;
+    }
+
+    nav a {
+      margin: 0 12px;
+      color: #00ffc3;
+      font-weight: bold;
+      text-decoration: none;
+    }
+
+    main {
+      text-align: center;
+      padding: 80px 20px;
+      backdrop-filter: blur(4px);
+      background-color: rgba(0, 0, 0, 0.45);
+      margin: 40px auto;
+      max-width: 500px;
+      border-radius: 12px;
+      box-shadow: 0 0 20px #00ffc388;
+    }
+
+    h1 {
+      font-size: 48px;
+      margin: 0;
+      color: #fff;
+      text-shadow: 2px 2px 4px rgba(0,0,0,0.6);
+    }
+
+    h2 {
+      font-size: 22px;
+      margin: 12px 0 30px;
+      color: #e6e6e6;
+    }
+
+    .boton-jugar {
+      display: inline-block;
+      padding: 16px 36px;
+      font-size: 18px;
+      font-weight: bold;
+      background-color: #00ffc3;
+      color: #000;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      box-shadow: 0 0 12px #00ffc355;
+      transition: transform 0.2s;
+      text-decoration: none;
+    }
+
+    .boton-jugar:hover {
+      transform: scale(1.05);
+    }
+
+    footer {
+      text-align: center;
+      padding: 15px 10px;
+      color: #888;
+      font-size: 0.85em;
+    }
+  </style>
+
+  <script>
+    const idioma = localStorage.getItem("idioma") || "es";
+    const lang = document.createElement("script");
+    lang.src = `idiomas/${idioma}.js`;
+    document.head.appendChild(lang);
+  </script>
+</head>
+
+<body>
+
+  <header>
+    <h1 id="titulo_lobby">All-In Poker</h1>
+    <nav>
+      <a href="mesa.html">🂡 <span id="nav_mesa">Mesa</span></a>
+      <a href="torneos.html">🏆 <span id="nav_torneos">Torneos</span></a>
+      <a href="tienda.html">💰 <span id="nav_tienda">Tienda</span></a>
+      <a href="ayuda.html">❓ <span id="nav_ayuda">Ayuda</span></a>
+    </nav>
+  </header>
+
+  <main>
+    <h2 id="subtitulo_lobby">Elige tu destino, jugador</h2>
+    <a href="mesa.html" class="boton-jugar" id="boton_jugar">Entrar a Mesa</a>
+  </main>
+
+  <footer>
+    <p>&copy; 2025 All-In Poker | Con Copilot integrado</p>
+  </footer>
+
+  <script>
+    window.onload = () => {
+      if (typeof textos === "undefined") return;
+      document.getElementById("titulo_lobby").textContent = textos.titulo_lobby || "All-In Poker";
+      document.getElementById("subtitulo_lobby").textContent = textos.subtitulo_lobby || "Elige tu destino, jugador";
+      document.getElementById("boton_jugar").textContent = textos.boton_jugar || "Entrar a Mesa";
+      document.getElementById("nav_mesa").textContent = textos.nav_mesa || "Mesa";
+      document.getElementById("nav_torneos").textContent = textos.nav_torneos || "Torneos";
+      document.getElementById("nav_tienda").textContent = textos.nav_tienda || "Tienda";
+      document.getElementById("nav_ayuda").textContent = textos.nav_ayuda || "Ayuda";
+    };
+  </script>
+
+  <script src="estado-juego.js"></script>
+  <script src="copilot-chat.js"></script>
+
+</body>
+</html>

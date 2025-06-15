@@ -1,0 +1,118 @@
+﻿<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Ranking | All-In Arena</title>
+
+  <!-- Cargar idioma dinámico -->
+  <script>
+    const idioma = localStorage.getItem("idioma") || "es";
+    const script = document.createElement("script");
+    script.src = `idiomas/${idioma}.js`;
+    document.head.appendChild(script);
+  </script>
+
+  <style>
+    body {
+      background: #111;
+      color: #eee;
+      font-family: sans-serif;
+      padding: 30px;
+    }
+
+    h1 {
+      text-align: center;
+      color: gold;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 20px;
+    }
+
+    th, td {
+      padding: 10px;
+      border-bottom: 1px solid #444;
+      text-align: center;
+    }
+
+    th {
+      background: #222;
+      color: #00ffc3;
+    }
+
+    tr.destacado {
+      background: #1a1a1a;
+      font-weight: bold;
+      box-shadow: 0 0 8px gold;
+    }
+
+    .racha {
+      color: gold;
+    }
+  </style>
+</head>
+<body>
+
+<h1 id="tituloRanking">🏆 Ranking Global de Jugadores</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>#</th>
+      <th id="thJugador">Jugador</th>
+      <th id="thTitulo">Título</th>
+      <th id="thGanadas">Ganadas</th>
+      <th id="thRacha">Racha</th>
+    </tr>
+  </thead>
+  <tbody id="tablaRanking"></tbody>
+</table>
+
+<script>
+  window.onload = () => {
+    // Aplicar textos del idioma
+    document.getElementById("tituloRanking").textContent = "🏆 " + textos.titulo_ranking;
+    document.getElementById("thJugador").textContent = textos.col_jugador;
+    document.getElementById("thTitulo").textContent = textos.col_titulo;
+    document.getElementById("thGanadas").textContent = textos.col_ganadas;
+    document.getElementById("thRacha").textContent = textos.col_racha;
+
+    const logros = JSON.parse(localStorage.getItem("logros")) || {};
+    const rachas = JSON.parse(localStorage.getItem("rachas")) || {};
+    const ranking = [];
+
+    for (const nombre in logros) {
+      const partidasGanadas = logros[nombre].partidasGanadas || 0;
+      const racha = rachas[nombre] || 0;
+      let titulo = textos.titulo_default;
+
+      if (partidasGanadas >= 10) titulo = textos.titulo_leyenda;
+      else if (partidasGanadas >= 5) titulo = textos.titulo_rey;
+
+      ranking.push({ nombre, partidasGanadas, racha, titulo });
+    }
+
+    ranking.sort((a, b) => b.partidasGanadas - a.partidasGanadas);
+
+    const tabla = document.getElementById("tablaRanking");
+    ranking.forEach((j, i) => {
+      const tr = document.createElement("tr");
+      if (i === 0) tr.classList.add("destacado");
+
+      tr.innerHTML = `
+        <td>${i + 1}</td>
+        <td>${j.nombre}</td>
+        <td>${j.titulo}</td>
+        <td>${j.partidasGanadas}</td>
+        <td class="${j.racha >= 3 ? 'racha' : ''}">${j.racha} 🔥</td>
+      `;
+      tabla.appendChild(tr);
+    });
+  };
+</script>
+
+</body>
+</html>

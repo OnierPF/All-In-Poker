@@ -1,0 +1,33 @@
+﻿<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>🤖 Copilot - Ayuda All-In Arena</title>
+  <link rel="stylesheet" href="style.css" />
+  <script defer src="chat.js"></script>
+</head>
+<body>
+  <header>
+    <h1>🤖 Asistente All-In Copilot</h1>
+    <nav>
+      <a href="index.html">🏠 Lobby</a>
+      <a href="poker.html">🂡 Mesa</a>
+      <a href="torneos.html">🏆 Torneos</a>
+      <a href="tienda.html">💰 Tienda</a>
+    </nav>
+  </header>
+
+  <main>
+    <div id="chatbox" style="max-width: 600px; margin: 30px auto; background: #111; padding: 20px; border-radius: 8px;">
+      <div id="historial" style="min-height: 200px; margin-bottom: 15px;"></div>
+      <input type="text" id="pregunta" placeholder="Escribe tu pregunta..." style="width: 80%;" />
+      <button onclick="enviar()">Enviar</button>
+    </div>
+  </main>
+
+  <footer>
+    <p>&copy; 2025 All-In Arena | Con Copilot integrado</p>
+  </footer>
+</body>
+</html>

@@ -1,0 +1,96 @@
+﻿<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <title>Tienda | All-In Arena</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
+  <!-- Cargar idioma dinámico -->
+  <script>
+    const idioma = localStorage.getItem("idioma") || "es";
+    const script = document.createElement("script");
+    script.src = `idiomas/${idioma}.js`;
+    document.head.appendChild(script);
+  </script>
+
+  <style>
+    body {
+      background: #0b0b0b;
+      color: #00ffc3;
+      font-family: 'Segoe UI', sans-serif;
+      padding: 20px;
+    }
+    .item {
+      border: 2px solid #00ffc3;
+      border-radius: 8px;
+      padding: 10px;
+      margin: 10px;
+      background: #1a1a1a;
+      box-shadow: 0 0 10px #00ffc366;
+    }
+    button {
+      background: #00ffc3;
+      color: #000;
+      border: none;
+      padding: 6px 12px;
+      border-radius: 4px;
+      cursor: pointer;
+      font-weight: bold;
+    }
+    button:hover {
+      background: #00ff91;
+    }
+  </style>
+</head>
+<body>
+
+<h1 id="tituloTienda">🛍️ Tienda Oficial</h1>
+<div id="tienda"></div>
+
+<script src="monedero.js"></script>
+<script src="inventario.js"></script>
+<script src="pin.js"></script>
+
+<script>
+  const jugador = "TonyHabana";
+
+  const itemsDisponibles = [
+    { nombre: "Avatar Futurista", costo: 500 },
+    { nombre: "Tema Oscuro", costo: 300 },
+    { nombre: "Camiseta Clásica", costo: 200 }
+  ];
+
+  function renderTienda() {
+    document.getElementById("tituloTienda").textContent = textos.titulo_tienda;
+
+    const contenedor = document.getElementById("tienda");
+    contenedor.innerHTML = "";
+    itemsDisponibles.forEach(item => {
+      const div = document.createElement("div");
+      div.className = "item";
+      div.innerHTML = `
+        <strong>${item.nombre}</strong><br/>
+        ${textos.costo}: ${item.costo} fichas<br/>
+        <button onclick="comprarItem('${item.nombre}', ${item.costo})">${textos.comprar}</button>
+      `;
+      contenedor.appendChild(div);
+    });
+  }
+
+  function comprarItem(nombreItem, costo) {
+    solicitarVerificacionPIN(jugador, () => {
+      const exito = restarFichas(jugador, costo);
+      if (exito) {
+        agregarAlInventario(jugador, nombreItem);
+        alert(`✅ ${textos.confirmacion} ${nombreItem}!`);
+      } else {
+        alert(`❌ ${textos.error_fichas}`);
+      }
+    });
+  }
+
+  renderTienda();
+</script>
+
+</body>
+</html>

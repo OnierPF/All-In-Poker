@@ -1,0 +1,113 @@
+﻿<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Perfil del Jugador</title>
+  <link rel="stylesheet" href="estilo.css" />
+
+  <script>
+    const idioma = localStorage.getItem("idioma") || "es";
+    const script = document.createElement("script");
+    script.src = `idiomas/${idioma}.js`;
+    document.head.appendChild(script);
+  </script>
+
+  <style>
+    .avatar {
+      width: 120px;
+      height: 120px;
+      border-radius: 50%;
+      background: url('https://via.placeholder.com/120') center/cover;
+      margin: 20px auto;
+      border: 3px solid #555;
+      transition: box-shadow 0.3s ease;
+    }
+
+    .racha-activa {
+      border-color: gold;
+      box-shadow: 0 0 15px gold;
+    }
+
+    .titulo-jugador {
+      font-size: 1.2em;
+      color: #ffd700;
+      text-align: center;
+      margin-bottom: 10px;
+    }
+
+    .racha-info {
+      font-style: italic;
+      text-align: center;
+      color: #ccc;
+      margin-bottom: 20px;
+    }
+  </style>
+</head>
+<body>
+  <div class="perfil">
+    <h2 id="tituloPerfil"></h2>
+    <div id="avatar" class="avatar"></div>
+    <div id="titulo" class="titulo-jugador"></div>
+    <div id="rachaMensaje" class="racha-info"></div>
+
+    <p id="estilo"></p>
+    <p id="ganadas"></p>
+    <p id="perdidas"></p>
+    <p id="recientes"></p>
+    <ul>
+      <li>Sube preflop con pares medianos</li>
+      <li>Hace all-in con A-K</li>
+      <li>Retira ante check-raise en river</li>
+    </ul>
+
+    <button id="btnCopilot" onclick="mostrarAnalisis()"></button>
+    <div id="burbujaCopilot" class="analisis-copilot">...</div>
+  </div>
+
+  <script src="copilot.js"></script>
+  <script>
+    const jugadorID = "Carlitos78";
+
+    window.onload = () => {
+      document.getElementById("tituloPerfil").textContent = `${textos.perfil_titulo}: ${jugadorID}`;
+      document.getElementById("estilo").innerHTML = `<strong>${textos.estilo}:</strong> Agresivo`;
+      document.getElementById("ganadas").innerHTML = `<strong>${textos.ganadas}:</strong> 12`;
+      document.getElementById("perdidas").innerHTML = `<strong>${textos.perdidas}:</strong> 8`;
+      document.getElementById("recientes").innerHTML = `<strong>${textos.recientes}:</strong>`;
+      document.getElementById("btnCopilot").textContent = textos.boton_analisis;
+
+      const hoy = new Date().toDateString();
+      let ultimaVisita = localStorage.getItem("ultimaVisita_" + jugadorID);
+      let rachas = JSON.parse(localStorage.getItem("rachas")) || {};
+      let racha = rachas[jugadorID] || 0;
+
+      if (ultimaVisita !== hoy) {
+        const ayer = new Date(Date.now() - 86400000).toDateString();
+        racha = (ultimaVisita === ayer) ? racha + 1 : 1;
+        rachas[jugadorID] = racha;
+        localStorage.setItem("rachas", JSON.stringify(rachas));
+        localStorage.setItem("ultimaVisita_" + jugadorID, hoy);
+      }
+
+      if (racha >= 3) {
+        document.getElementById("avatar").classList.add("racha-activa");
+      }
+
+      document.getElementById("rachaMensaje").textContent = `🔥 ${textos.racha}: ${racha} día(s)`;
+
+      const logros = JSON.parse(localStorage.getItem("logros")) || {};
+      if (!logros[jugadorID]) {
+        logros[jugadorID] = { partidasGanadas: 12 };
+        localStorage.setItem("logros", JSON.stringify(logros));
+      }
+
+      const ganadas = logros[jugadorID].partidasGanadas;
+      let titulo = "Jugador Casual";
+      if (ganadas >= 10) titulo = "🥇 Leyenda del Tapete";
+      else if (ganadas >= 5) titulo = "🃏 Rey del Bluff";
+      document.getElementById("titulo").textContent = titulo;
+    };
+  </script>
+</body>
+</html>

@@ -1,0 +1,71 @@
+﻿<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <title>Inventario | All-In Poker</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <link rel="stylesheet" href="css/inventario.css" />
+
+  <script>
+    const idioma = localStorage.getItem("idioma") || "es";
+    const langScript = document.createElement("script");
+    langScript.src = `idiomas/${idioma}.js`;
+    document.head.appendChild(langScript);
+  </script>
+</head>
+<body>
+
+  <header>
+    <nav>
+      <a href="index.html">🏠</a>
+      <a href="mesa.html">🂡</a>
+      <a href="tienda.html">🛍️</a>
+      <a href="perfil.html">👤</a>
+    </nav>
+  </header>
+
+  <main>
+    <h1 id="tituloInventario">Inventario</h1>
+    <div id="contenedorItems"></div>
+  </main>
+
+  <footer>
+    <p>&copy; 2025 All-In Poker</p>
+  </footer>
+
+  <script src="js/core/inventario.js"></script>
+  <script>
+    const jugador = localStorage.getItem("nombre") || "Jugador";
+    const lista = document.getElementById("contenedorItems");
+
+    function renderInventario() {
+      if (!window.inventario || !window.equipado) return;
+
+      lista.innerHTML = "";
+      const items = window.inventario[jugador] || [];
+      const equipado = window.equipado[jugador];
+
+      if (items.length === 0) {
+        lista.innerHTML = `<p>${textos.no_items}</p>`;
+        return;
+      }
+
+      items.forEach(item => {
+        const div = document.createElement("div");
+        div.className = "item" + (equipado === item ? " activo" : "");
+        div.innerHTML = `
+          <strong>${item}</strong><br>
+          ${equipado === item ? `<em>${textos.equipado}</em>` :
+            `<button class="btn" onclick="equiparItem('${jugador}', '${item}'); renderInventario();">${textos.boton_equipar}</button>`}
+        `;
+        lista.appendChild(div);
+      });
+    }
+
+    window.onload = () => {
+      document.getElementById("tituloInventario").textContent = textos.titulo_inventario || "Inventario";
+      renderInventario();
+    };
+  </script>
+</body>
+</html>
