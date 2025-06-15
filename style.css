@@ -1,0 +1,108 @@
+/* Google Font: Roboto */
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap');
+
+body {
+  margin: 0;
+  padding: 0;
+  background: linear-gradient(135deg, #101820, #0d1a26);
+  font-family: 'Roboto', sans-serif;
+  color: #e0f7fa;
+  text-align: center;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+header {
+  background-color: #0f0f0f;
+  padding: 20px 0;
+  box-shadow: 0 2px 10px #00ffc3;
+}
+
+header h1 {
+  margin: 0;
+  font-size: 28px;
+  color: #00ffc3;
+}
+
+nav {
+  margin-top: 10px;
+}
+
+nav a {
+  margin: 0 10px;
+  text-decoration: none;
+  color: #ffffff;
+  font-weight: bold;
+  transition: color 0.3s ease;
+}
+
+nav a:hover {
+  color: #00ffc3;
+}
+
+main {
+  flex-grow: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 30px 10px;
+}
+
+.bienvenida {
+  max-width: 800px;
+  background-color: rgba(0, 0, 0, 0.3);
+  border: 2px solid #00ffc3;
+  padding: 30px;
+  border-radius: 15px;
+  box-shadow: 0 0 20px rgba(0, 255, 195, 0.4);
+}
+
+.bienvenida h2 {
+  margin-bottom: 30px;
+  font-size: 24px;
+  color: #ffffff;
+  text-shadow:
+    2px 2px 5px rgba(0, 0, 0, 0.7),
+    0 0 10px rgba(0, 255, 195, 0.2);
+}
+
+.menu-juegos {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 20px;
+}
+
+.opcion {
+  display: inline-block;
+  background: #0f0f0f;
+  padding: 20px;
+  border: 2px solid #00ffc3;
+  border-radius: 10px;
+  text-decoration: none;
+  color: #00ffc3;
+  font-size: 18px;
+  width: 200px;
+  transition: all 0.3s ease;
+  box-shadow: 0 0 10px rgba(0, 255, 195, 0.5);
+}
+
+.opcion:hover {
+  background-color: #00ffc3;
+  color: #0f0f0f;
+  transform: scale(1.05);
+  box-shadow: 0 0 20px #00ffc3;
+  cursor: pointer;
+}
+
+footer {
+  background-color: #0f0f0f;
+  padding: 15px;
+  font-size: 14px;
+  color: #888;
+  border-top: 1px solid #00ffc3;
+}
+
+
+
