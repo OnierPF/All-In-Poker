@@ -28,7 +28,6 @@
       <a href="tienda.html">Tienda</a>
       <a href="perfil.html">Perfil</a>
       <a href="dashboard.html">Dashboard</a>
-      <!-- Admin eliminado -->
       <a href="contact.html">Contacto</a>
     </nav>
 
@@ -46,12 +45,34 @@
 
   <main id="lobby" class="grid-layout">
     <aside id="sidebar">
-      <!-- ... tus filtros ... -->
+      <h2>Filtros</h2>
+      <div class="filter-group">
+        <label for="filter-type">Tipo de mesa:</label>
+        <select id="filter-type">
+          <option value="all">Todas</option>
+          <option value="cash">Cash</option>
+          <option value="tournament">Torneo</option>
+        </select>
+      </div>
+      <div class="filter-group">
+        <label for="filter-min-bet">Apuesta mínima:</label>
+        <input type="range" id="filter-min-bet" min="10" max="1000" step="10" value="10">
+        <output id="filter-min-bet-val">10</output>
+      </div>
+      <button id="apply-filters">Aplicar</button>
+      <hr>
+      <button id="quick-join">Unirse Rápido</button>
     </aside>
     <div id="sidebar-overlay"></div>
 
     <section id="tables">
-      <!-- ... tus tarjetas de mesa ... -->
+      <template id="table-item-tpl">
+        <div class="table-card">
+          <h3 class="table-title"></h3>
+          <p class="table-info"></p>
+          <button class="join-btn">Unirse</button>
+        </div>
+      </template>
     </section>
   </main>
 
