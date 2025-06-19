@@ -1,39 +1,95 @@
 ﻿<!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Panel Admin • All-In Poker</title>
-  <link rel="stylesheet" href="css/style.css">
-  <link rel="stylesheet" href="css/admin.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>All-In Poker • Panel Super-Admin</title>
+  <link rel="stylesheet" href="css/style.css" />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    /* Estilos específicos para el Panel Admin */
+    #loginContainer, #adminPanel { max-width: 800px; margin: 2rem auto; }
+    #adminPanel { display: none; }
+    .admin-tabs { display: flex; gap: 1rem; margin-top: 2rem; }
+    .tab-btn { padding: .5rem 1rem; background: #00ff7f; border: none; cursor: pointer; border-radius: 4px; color: #111; }
+    .tab-btn.active { background: #00c72b; color: #fff; }
+    .tab { display: none; margin-top: 1rem; }
+    .tab.active { display: block; }
+    table { width: 100%; border-collapse: collapse; margin-top: .5rem; }
+    table th, table td { border: 1px solid #444; padding: .5rem; }
+    .actions button { margin-right: .5rem; }
+    #userSearch { width: 100%; padding: .5rem; margin-bottom: .5rem; }
+    button { cursor: pointer; }
+  </style>
 </head>
 <body>
-  <header class="navbar">
-    <img src="assets/logo-3d.png" class="logo" />
-    <nav>
-      <a href="index.html">Lobby</a>
-      <a href="dashboard.html">Dashboard</a>
-    </nav>
-  </header>
+  <h1 style="text-align:center;">Panel Super-Admin</h1>
 
-  <main id="admin-panel">
-    <aside>
-      <ul>
-        <li><button data-section="config">Configuración General</button></li>
-        <li><button data-section="torneos">Torneos</button></li>
-        <li><button data-section="usuarios">Usuarios</button></li>
-        <li><button data-section="multimedia">Multimedia</button></li>
-        <li><button data-section="reportes">Reportes</button></li>
-        <li><button data-section="mensajes">Mensajes</button></li>
-      </ul>
-    </aside>
-    <section id="admin-content">
-      <!-- Aquí se inyectarán los paneles desde JS -->
+  <!-- LOGIN -->
+  <div id="loginContainer">
+    <form id="adminLoginForm" style="display:flex; flex-direction:column; gap:.5rem;">
+      <input type="text" id="username" placeholder="Usuario" required />
+      <input type="password" id="password" placeholder="Contraseña" required />
+      <button type="submit">Iniciar Sesión</button>
+    </form>
+    <div id="loginError" style="color:red; margin-top:.5rem;"></div>
+  </div>
+
+  <!-- PANEL -->
+  <div id="adminPanel">
+    <!-- Límites Mensuales -->
+    <section id="monthlyLimitsSection">
+      <h2>Configuración de Límites Mensuales</h2>
+      <p>CUP: <strong id="currentMonthlyLimitCUP"></strong> – MLC: <strong id="currentMonthlyLimitMLC"></strong></p>
+      <form id="monthlyLimitsForm" style="display:flex; gap:1rem; align-items:center;">
+        <input type="number" id="newLimitCUP" placeholder="Nuevo límite CUP" required />
+        <input type="number" id="newLimitMLC" placeholder="Nuevo límite MLC" required />
+        <button type="submit">Actualizar</button>
+      </form>
+      <div id="monthlyLimitsMsg" style="margin-top:.5rem;"></div>
     </section>
-  </main>
 
-  <script defer src="js/core/mttDashboard.js"></script>
-  <script defer src="js/core/notifications.js"></script>
-  <script defer src="js/core/analytics.js"></script>
+    <!-- Reequilibrio de Mesas -->
+    <section id="tournamentRebalance" style="margin-top:2rem;">
+      <h2>Reequilibrar Mesas</h2>
+      <button id="rebalanceBtn">Reequilibrar</button>
+      <div id="rebalanceMsg" style="margin-top:.5rem;"></div>
+    </section>
+
+    <!-- Navegación entre pestañas -->
+    <div class="admin-tabs">
+      <button class="tab-btn active" data-tab="shopTab">🛒 Shop</button>
+      <button class="tab-btn" data-tab="usersTab">👥 Usuarios</button>
+      <button class="tab-btn" data-tab="statsTab">📊 Estadísticas</button>
+    </div>
+
+    <!-- SHOP MANAGEMENT -->
+    <section id="shopTab" class="tab active">
+      <h2>Gestión de Paquetes</h2>
+      <button id="addPackageBtn">+ Nuevo Paquete</button>
+      <table id="shopTable">
+        <thead><tr><th>Nombre</th><th>Precio (CUP)</th><th>Fichas</th><th>Acciones</th></tr></thead>
+        <tbody></tbody>
+      </table>
+    </section>
+
+    <!-- USER MANAGEMENT -->
+    <section id="usersTab" class="tab">
+      <h2>Listado de Usuarios</h2>
+      <input id="userSearch" placeholder="Buscar por nombre…" />
+      <table id="usersTable">
+        <thead><tr><th>Nombre</th><th>Fichas</th><th>CUP</th><th>Acciones</th></tr></thead>
+        <tbody></tbody>
+      </table>
+    </section>
+
+    <!-- SALES STATISTICS -->
+    <section id="statsTab" class="tab">
+      <h2>Ventas por Paquete</h2>
+      <canvas id="salesChart"></canvas>
+    </section>
+  </div>
+
+  <script type="module" src="js/admin.js"></script>
 </body>
 </html>
