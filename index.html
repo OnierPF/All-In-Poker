@@ -18,36 +18,41 @@
       <img src="assets/logo-3d.png" alt="Logo All-In Poker" class="logo">
     </div>
     <nav>
-      <a href="index.html" class="active">Home</a>
-      <a href="torneos.html">Torneos</a>
-      <a href="tienda.html">Tienda</a>
-      <a href="perfil.html">Perfil</a>
-      <a href="dashboard.html">Dashboard</a>
-      <a href="admin.html">Admin</a>
-      <a href="contact.html">Contacto</a>
+      <a href="index.html" class="active" data-i18n-key="nav.home">Home</a>
+      <a href="torneos.html" data-i18n-key="nav.tournaments">Torneos</a>
+      <a href="tienda.html" data-i18n-key="nav.store">Tienda</a>
+      <a href="perfil.html" data-i18n-key="nav.profile">Perfil</a>
+      <a href="dashboard.html" data-i18n-key="nav.dashboard">Dashboard</a>
+      <a href="admin.html" data-i18n-key="nav.admin">Admin</a>
+      <a href="contact.html" data-i18n-key="nav.contact">Contacto</a>
     </nav>
     <button id="toggle-theme">🌙</button>
+    <select id="lang-select" aria-label="Idioma">
+      <option value="es">ES</option>
+      <option value="en">EN</option>
+    </select>
   </header>
 
   <main id="lobby" class="grid-layout">
     <aside id="sidebar">
-      <h2>Filtros</h2>
+      <h2 data-i18n-key="filters.title">Filtros</h2>
       <div class="filter-group">
-        <label for="filter-type">Tipo de mesa:</label>
+        <label for="filter-type" data-i18n-key="filters.tableType">Tipo de mesa:</label>
         <select id="filter-type">
-          <option value="all">Todas</option>
-          <option value="cash">Cash</option>
-          <option value="tournament">Torneo</option>
+          <option value="all" data-i18n-key="filters.type.all">Todas</option>
+          <option value="cash" data-i18n-key="filters.type.cash">Cash</option>
+          <option value="tournament" data-i18n-key="filters.type.tournament">Torneo</option>
         </select>
       </div>
       <div class="filter-group">
-        <label for="filter-min-bet">Apuesta mínima:</label>
-        <input type="range" id="filter-min-bet" min="10" max="1000" step="10">
+        <label for="filter-min-bet" data-i18n-key="filters.minBet">Apuesta mínima:</label>
+        <!-- Aquí va el value inicial -->
+        <input type="range" id="filter-min-bet" min="10" max="1000" step="10" value="10">
         <output id="filter-min-bet-val" for="filter-min-bet">10</output>
       </div>
-      <button id="apply-filters">Aplicar</button>
+      <button id="apply-filters" data-i18n-key="filters.apply">Aplicar</button>
       <hr>
-      <button id="quick-join">Unirse Rápido</button>
+      <button id="quick-join" data-i18n-key="filters.quickJoin">Unirse Rápido</button>
     </aside>
 
     <section id="tables">
@@ -74,6 +79,7 @@
   <script defer src="js/chat.js"></script>
   <script defer src="js/copilot-chat.js"></script>
   <script defer src="js/core/analytics.js"></script>
+  <script defer src="js/core/settingsPanel.js"></script>
   <script defer src="js/core/i18n.js"></script>
 </body>
 </html>

@@ -1,4 +1,8 @@
-﻿/* Reset básico */
+﻿/* ============================= */
+/*  style.css — All-In Poker v1  */
+/* ============================= */
+
+/* Reset básico */
 *,
 *::before,
 *::after {
@@ -9,8 +13,8 @@
 html, body {
   height: 100%;
   font-family: 'Segoe UI', sans-serif;
-  background-color: #111;
-  color: #eee;
+  background-color: #111;       /* fondo oscuro por defecto */
+  color: #eee;                  /* texto claro por defecto */
   line-height: 1.4;
 }
 img {
@@ -18,23 +22,32 @@ img {
   display: block;
 }
 
-/* Variables */
+/* ============================= */
+/*      Variables de color       */
+/* ============================= */
 :root {
-  --primary: #ffbe0b;
-  --secondary: #1d3557;
-  --bg-dark: #111;
-  --bg-light: #222;
-  --text-light: #eee;
-  --text-dark: #111;
-  --accent: #e63946;
+  /* Colores principales verdes */
+  --primary: #00ff7f;     /* Verde brillante */
+  --accent:  #00c72b;     /* Verde oscuro para acentos */
+
+  /* Fondos */
+  --bg-dark:  #111;       /* Fondo general en light-mode */
+  --bg-light: #222;       /* Paneles y navbar en light-mode */
+
+  /* Textos */
+  --text-light: #eee;     /* Texto claro */
+  --text-dark:  #111;     /* Texto oscuro */
 }
 
-/* Navbar */
+/* ============================= */
+/*        Navbar y Header        */
+/* ============================= */
 .navbar {
   display: flex;
   align-items: center;
   padding: 0.5rem 1rem;
   background: var(--bg-light);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
 }
 .navbar .logo {
   height: 40px;
@@ -49,11 +62,14 @@ img {
   text-decoration: none;
   padding: 0.25rem 0.5rem;
   border-radius: 4px;
+  transition: transform .2s, box-shadow .2s;
 }
 .navbar a.active,
 .navbar a:hover {
   background: var(--primary);
   color: var(--text-dark);
+  transform: perspective(500px) rotateX(6deg);
+  box-shadow: 0 4px 8px rgba(0,0,0,0.4);
 }
 #toggle-theme {
   margin-left: 1rem;
@@ -64,7 +80,9 @@ img {
   color: var(--text-light);
 }
 
-/* Layout general */
+/* ============================= */
+/*       Layout principal        */
+/* ============================= */
 main.grid-layout {
   display: grid;
   grid-template-columns: 250px 1fr;
@@ -83,7 +101,30 @@ section#tables {
   gap: 1rem;
 }
 
-/* Table cards */
+/* ============================= */
+/*      Grupos de filtros        */
+/* ============================= */
+.filter-group {
+  margin-bottom: 1rem;
+}
+.filter-group label {
+  display: block;
+  margin-bottom: 0.25rem;
+  color: var(--text-light);
+}
+.filter-group input[type="range"] {
+  width: 100%;
+  margin-bottom: 0.25rem;
+}
+.filter-group output {
+  display: block;
+  text-align: right;
+  color: var(--text-light);
+}
+
+/* ============================= */
+/*       Tarjetas de mesa        */
+/* ============================= */
 .table-card {
   background: var(--bg-dark);
   border: 1px solid var(--bg-light);
@@ -92,10 +133,16 @@ section#tables {
   display: flex;
   flex-direction: column;
   align-items: center;
+  box-shadow: 2px 4px 6px rgba(0,0,0,0.4);
+  transition: transform .2s;
+}
+.table-card:hover {
+  transform: translateY(-4px);
 }
 .table-card .table-title {
   font-size: 1.1rem;
   margin-bottom: 0.5rem;
+  color: var(--text-light);
 }
 .table-card .join-btn {
   margin-top: auto;
@@ -105,12 +152,17 @@ section#tables {
   color: var(--text-dark);
   border-radius: 4px;
   cursor: pointer;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.4);
+  transition: transform .2s, box-shadow .2s;
 }
 .table-card .join-btn:hover {
-  background: #ff9f1c;
+  transform: translateY(-4px);
+  box-shadow: 0 8px 12px rgba(0,0,0,0.5);
 }
 
-/* Chat & Toast containers */
+/* ============================= */
+/*   Contenedores flotantes      */
+/* ============================= */
 #chat-container,
 #toast-container {
   position: fixed;
@@ -126,7 +178,9 @@ section#tables {
   width: 250px;
 }
 
-/* Forms genéricos */
+/* ============================= */
+/*      Formularios y botones    */
+/* ============================= */
 form {
   display: flex;
   flex-direction: column;
@@ -142,10 +196,71 @@ button {
   padding: 0.5rem 1rem;
   background: var(--primary);
   color: var(--text-dark);
+  box-shadow: 0 4px 8px rgba(0,0,0,0.4);
+  transition: transform .2s, box-shadow .2s;
 }
 button:hover {
-  background: #ff9f1c;
+  transform: translateY(-4px);
+  box-shadow: 0 8px 12px rgba(0,0,0,0.5);
 }
 
-/* Utilities */
-.hidden { display: none !important; }
+/* ============================= */
+/*       Modo Oscuro (Dark)      */
+/* ============================= */
+body.dark-mode {
+  background-color: var(--text-light);
+  color: var(--text-dark);
+}
+body.dark-mode .navbar {
+  background: var(--text-light);
+}
+body.dark-mode .navbar a {
+  color: var(--text-dark);
+}
+body.dark-mode .navbar a.active,
+body.dark-mode .navbar a:hover {
+  background: var(--accent);
+  color: var(--text-light);
+  box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+}
+
+body.dark-mode aside#sidebar {
+  background: var(--text-light);
+}
+body.dark-mode section#tables {
+  background: var(--text-light);
+}
+
+body.dark-mode .filter-group label,
+body.dark-mode .filter-group output {
+  color: var(--text-dark);
+}
+body.dark-mode input[type="range"] {
+  background: var(--text-light);
+}
+body.dark-mode input,
+body.dark-mode select,
+body.dark-mode output,
+body.dark-mode button {
+  background: var(--text-light);
+  color: var(--text-dark);
+  border: 1px solid var(--text-dark);
+  box-shadow: none;
+}
+
+body.dark-mode .table-card {
+  background: var(--text-light);
+  border: 1px solid var(--text-dark);
+  box-shadow: 2px 4px 6px rgba(0,0,0,0.3);
+}
+body.dark-mode .table-card:hover {
+  transform: translateY(-4px);
+}
+body.dark-mode .join-btn {
+  background: var(--primary);
+  color: var(--text-dark);
+  box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+}
+body.dark-mode .join-btn:hover {
+  box-shadow: 0 8px 12px rgba(0,0,0,0.4);
+}

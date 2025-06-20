@@ -1,26 +1,18 @@
 ﻿/**
- * settingsPanel.js – Panel de ajustes togglables
+ * settingsPanel.js – Maneja dark-mode
  */
 document.addEventListener('DOMContentLoaded', () => {
-  // Dark mode
-  const btn = document.getElementById('toggle-theme');
-  btn?.addEventListener('click', () => {
+  const toggle = document.getElementById('toggle-theme');
+  // Al hacer click, alterna la clase y guarda la preferencia
+  toggle?.addEventListener('click', () => {
     document.body.classList.toggle('dark-mode');
-    localStorage.setItem('darkMode', document.body.classList.contains('dark-mode'));
+    localStorage.setItem(
+      'darkMode',
+      document.body.classList.contains('dark-mode')
+    );
   });
+  // Al cargar, aplica modo oscuro si estaba activo
   if (localStorage.getItem('darkMode') === 'true') {
     document.body.classList.add('dark-mode');
-  }
-
-  // Calidad gráfica
-  const select = document.getElementById('graphics-quality');
-  select?.addEventListener('change', e => {
-    document.body.dataset.quality = e.target.value;
-    localStorage.setItem('gfxQuality', e.target.value);
-  });
-  const saved = localStorage.getItem('gfxQuality');
-  if (saved) {
-    document.body.dataset.quality = saved;
-    select.value = saved;
   }
 });
