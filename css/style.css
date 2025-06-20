@@ -1,5 +1,5 @@
 ﻿/* ============================= */
-/*  style.css — All-In Poker v1  */
+/*  style.css — All-In Poker v3  */
 /* ============================= */
 
 /* Reset básico */
@@ -13,8 +13,8 @@
 html, body {
   height: 100%;
   font-family: 'Segoe UI', sans-serif;
-  background-color: #111;       /* fondo oscuro por defecto */
-  color: #eee;                  /* texto claro por defecto */
+  background-color: #111;
+  color: #eee;
   line-height: 1.4;
 }
 img {
@@ -26,17 +26,12 @@ img {
 /*      Variables de color       */
 /* ============================= */
 :root {
-  /* Colores principales verdes */
-  --primary: #00ff7f;     /* Verde brillante */
-  --accent:  #00c72b;     /* Verde oscuro para acentos */
-
-  /* Fondos */
-  --bg-dark:  #111;       /* Fondo general en light-mode */
-  --bg-light: #222;       /* Paneles y navbar en light-mode */
-
-  /* Textos */
-  --text-light: #eee;     /* Texto claro */
-  --text-dark:  #111;     /* Texto oscuro */
+  --primary:    #00ff7f;
+  --accent:     #00c72b;
+  --bg-dark:    #111;
+  --bg-light:   #222;
+  --text-light: #eee;
+  --text-dark:  #111;
 }
 
 /* ============================= */
@@ -47,10 +42,33 @@ img {
   align-items: center;
   padding: 0.5rem 1rem;
   background: var(--bg-light);
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+  box-shadow: 0 4px 8px rgba(0,0,0,0.5);
+  position: relative;
 }
 .navbar .logo {
   height: 40px;
+  /* Pulso: escala del 100% al 110% en 2s */
+  animation: pulse 2s ease-in-out infinite;
+}
+@keyframes pulse {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.1);
+  }
+}
+#mobile-menu-btn {
+  display: none;
+  position: absolute;
+  right: 1rem;
+  top: 0.6rem;
+  background: none;
+  border: none;
+  font-size: 1.8rem;
+  color: var(--text-light);
+  cursor: pointer;
+  z-index: 1001;
 }
 .navbar nav {
   margin-left: auto;
@@ -87,11 +105,18 @@ main.grid-layout {
   display: grid;
   grid-template-columns: 250px 1fr;
   height: calc(100% - 60px);
+  transition: all .3s;
 }
 aside#sidebar {
   background: var(--bg-light);
   padding: 1rem;
   overflow-y: auto;
+  transition: all .3s;
+  z-index: 1000;
+  position: relative;
+}
+aside#sidebar.active {
+  left: 0;
 }
 section#tables {
   padding: 1rem;
@@ -223,14 +248,12 @@ body.dark-mode .navbar a:hover {
   color: var(--text-light);
   box-shadow: 0 4px 8px rgba(0,0,0,0.3);
 }
-
 body.dark-mode aside#sidebar {
   background: var(--text-light);
 }
 body.dark-mode section#tables {
   background: var(--text-light);
 }
-
 body.dark-mode .filter-group label,
 body.dark-mode .filter-group output {
   color: var(--text-dark);
@@ -247,7 +270,6 @@ body.dark-mode button {
   border: 1px solid var(--text-dark);
   box-shadow: none;
 }
-
 body.dark-mode .table-card {
   background: var(--text-light);
   border: 1px solid var(--text-dark);
@@ -263,4 +285,32 @@ body.dark-mode .join-btn {
 }
 body.dark-mode .join-btn:hover {
   box-shadow: 0 8px 12px rgba(0,0,0,0.4);
+}
+
+/* ============================= */
+/*     Responsive & hamburguesa  */
+/* ============================= */
+@media (max-width: 768px) {
+  main.grid-layout {
+    grid-template-columns: 1fr;
+  }
+  #mobile-menu-btn {
+    display: block;
+  }
+  aside#sidebar {
+    position: fixed;
+    top: 0;
+    left: -100%;
+    width: 80%;
+    max-width: 280px;
+    height: 100%;
+    transition: left .3s ease;
+    z-index: 1000;
+  }
+  aside#sidebar.active {
+    left: 0;
+  }
+  section#tables {
+    padding-top: 60px;
+  }
 }
