@@ -87,12 +87,20 @@
   <script defer src="js/core/settingsPanel.js"></script>
   <script defer src="js/core/i18n.js"></script>
 
-  <!-- Script para el menú hamburguesa -->
+  <!-- Script reforzado para el menú hamburguesa -->
   <script>
-    const mobileBtn = document.getElementById('mobile-menu-btn');
-    const sidebar   = document.getElementById('sidebar');
-    mobileBtn.addEventListener('click', () => {
-      sidebar.classList.toggle('active');
+    document.addEventListener('DOMContentLoaded', function () {
+      console.log('Mobile menu script loaded');
+      const mobileBtn = document.getElementById('mobile-menu-btn');
+      const sidebar   = document.getElementById('sidebar');
+      if (!mobileBtn || !sidebar) {
+        console.error('Botón o sidebar no encontrado');
+        return;
+      }
+      mobileBtn.addEventListener('click', function () {
+        console.log('Mobile menu clicked');
+        sidebar.classList.toggle('active');
+      });
     });
   </script>
 </body>
