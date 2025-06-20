@@ -3,17 +3,28 @@
 on:
   push:
     branches:
-      - principal  # o el nombre de tu rama principal
+      - principal  # tu rama principal
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout repo
+      # 1) Clonar todo el repo, con historial completo
+      - name: Checkout
         uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
 
+      # 2) Configurar identidad para los commits automáticos
+      - name: Configurar Git
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+      # 3) Desplegar la carpeta raíz a gh-pages
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./
+          publish_branch: gh-pages
