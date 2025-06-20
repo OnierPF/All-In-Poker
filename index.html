@@ -69,23 +69,22 @@
   <div id="chat-container"></div>
   <div id="toast-container"></div>
 
-  <!-- Ahora cargamos socket.io cliente -->
-  <script src="https://cdn.socket.io/4.5.4/socket.io.min.js"></script>
-  <!-- Scripts ES modules -->
-  <script type="module" src="js/utils.js"></script>
-  <script type="module" src="js/core/filters.js"></script>
-  <script type="module" src="js/core/quickJoin.js"></script>
-  <script type="module" src="js/core/timeBank.js"></script>
-  <script type="module" src="js/core/countdown.js"></script>
-  <script type="module" src="js/core/gameActions.js"></script>
-  <script type="module" src="js/core/notifications.js"></script>
-  <script type="module" src="js/chat.js"></script>
-  <script type="module" src="js/copilot-chat.js"></script>
-  <script type="module" src="js/core/analytics.js"></script>
-  <script type="module" src="js/core/settingsPanel.js"></script>
-  <script type="module" src="js/core/i18n.js"></script>
+  <!-- Ya no cargamos socket.io, así desaparece el manager.js 404 -->
 
-  <!-- Script para el menú hamburguesa, sigue siendo clásico -->
+  <script defer src="js/utils.js"></script>
+  <script defer src="js/core/filters.js"></script>
+  <script defer src="js/core/quickJoin.js"></script>
+  <script defer src="js/core/timeBank.js"></script>
+  <script defer src="js/core/countdown.js"></script>
+  <script defer src="js/core/gameActions.js"></script>
+  <script defer src="js/core/notifications.js"></script>
+  <script defer src="js/chat.js"></script>
+  <script defer src="js/copilot-chat.js"></script>
+  <script defer src="js/core/analytics.js"></script>
+  <script defer src="js/core/settingsPanel.js"></script>
+  <script defer src="js/core/i18n.js"></script>
+
+  <!-- Script para el menú hamburguesa -->
   <script>
     document.addEventListener('DOMContentLoaded', () => {
       const mobileBtn = document.getElementById('mobile-menu-btn');
