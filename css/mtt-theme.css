@@ -1,0 +1,27 @@
+﻿/* Dashboard MTT */
+#dashboard {
+  max-width: 800px;
+  margin: 2rem auto;
+  background: var(--bg-light);
+  padding: 1.5rem;
+  border-radius: 8px;
+}
+#dashboard canvas {
+  background: #fff;
+  border: 1px solid var(--bg-dark);
+  border-radius: 6px;
+  width: 100%;
+  height: 300px;
+  margin-bottom: 1rem;
+}
+
+/* Torneos list */
+#torneos {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px,1fr));
+  gap: 1rem;
+  padding: 1rem;
+}
+#torneos section h2 {
+  margin-bottom: 0.75rem;
+}

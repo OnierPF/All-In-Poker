@@ -1,0 +1,42 @@
+﻿/* Inventario y Monedero */
+#tienda {
+  max-width: 400px;
+  margin: 2rem auto;
+  background: var(--bg-light);
+  padding: 1.5rem;
+  border-radius: 8px;
+}
+#buy-chips-form label {
+  font-weight: bold;
+  margin-bottom: 0.25rem;
+}
+#buy-chips-form input,
+#buy-chips-form select {
+  width: 100%;
+  padding: 0.5rem;
+  border: 1px solid var(--bg-dark);
+  border-radius: 4px;
+  background: var(--bg-dark);
+  color: var(--text-light);
+}
+#buy-chips-form button {
+  margin-top: 1rem;
+}
+
+/* Perfil / Monedero */
+#perfil {
+  max-width: 600px;
+  margin: 2rem auto;
+  background: var(--bg-light);
+  padding: 1.5rem;
+  border-radius: 8px;
+}
+#perfil section {
+  margin-bottom: 1.25rem;
+}
+#perfil ul {
+  list-style: none;
+}
+#perfil span {
+  font-weight: bold;
+}

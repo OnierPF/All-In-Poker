@@ -1,0 +1,43 @@
+﻿<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>All-In Poker • Mesa</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/mtt-theme.css">
+</head>
+<body>
+  <header class="navbar">
+    <div class="logo-wrap">
+      <img src="assets/logo-3d.png" alt="Logo" class="logo">
+    </div>
+    <nav>
+      <a href="index.html">Home</a>
+      <a href="torneos.html">Torneos</a>
+      <a href="tienda.html">Tienda</a>
+      <a href="perfil.html">Perfil</a>
+      <a href="dashboard.html">Dashboard</a>
+      <a href="admin.html">Admin</a>
+      <a href="contact.html">Contacto</a>
+    </nav>
+  </header>
+
+  <main id="mesa">
+    <canvas id="table-canvas"></canvas>
+    <section id="actions">
+      <button data-action="fold">Pasar</button>
+      <button data-action="check">Ver</button>
+      <button data-action="bet">Apostar</button>
+      <button data-action="raise">Subir</button>
+      <button data-action="allin">All-In</button>
+    </section>
+    <div id="chat-area"></div>
+  </main>
+
+  <script defer src="js/chat.js"></script>
+  <script defer src="js/core/gameActions.js"></script>
+  <script defer src="js/core/glowingCards.js"></script>
+  <script defer src="js/core/privateReveal.js"></script>
+</body>
+</html>

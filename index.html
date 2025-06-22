@@ -1,0 +1,79 @@
+﻿<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>All-In Poker • Lobby</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/mtt-theme.css">
+  <link rel="manifest" href="manifest.json">
+  <script>
+    if ('serviceWorker' in navigator)
+      navigator.serviceWorker.register('js/serviceWorker.js');
+  </script>
+</head>
+<body>
+  <header class="navbar">
+    <div class="logo-wrap">
+      <img src="assets/logo-3d.png" alt="Logo All-In Poker" class="logo">
+    </div>
+    <nav>
+      <a href="index.html" class="active">Home</a>
+      <a href="torneos.html">Torneos</a>
+      <a href="tienda.html">Tienda</a>
+      <a href="perfil.html">Perfil</a>
+      <a href="dashboard.html">Dashboard</a>
+      <a href="admin.html">Admin</a>
+      <a href="contact.html">Contacto</a>
+    </nav>
+    <button id="toggle-theme">🌙</button>
+  </header>
+
+  <main id="lobby" class="grid-layout">
+    <aside id="sidebar">
+      <h2>Filtros</h2>
+      <div class="filter-group">
+        <label for="filter-type">Tipo de mesa:</label>
+        <select id="filter-type">
+          <option value="all">Todas</option>
+          <option value="cash">Cash</option>
+          <option value="tournament">Torneo</option>
+        </select>
+      </div>
+      <div class="filter-group">
+        <label for="filter-min-bet">Apuesta mínima:</label>
+        <input type="range" id="filter-min-bet" min="10" max="1000" step="10">
+        <output id="filter-min-bet-val" for="filter-min-bet">10</output>
+      </div>
+      <button id="apply-filters">Aplicar</button>
+      <hr>
+      <button id="quick-join">Unirse Rápido</button>
+    </aside>
+
+    <section id="tables">
+      <template id="table-item-tpl">
+        <div class="table-card">
+          <h3 class="table-title"></h3>
+          <p class="table-info"></p>
+          <button class="join-btn">Unirse</button>
+        </div>
+      </template>
+    </section>
+  </main>
+
+  <div id="chat-container"></div>
+  <div id="toast-container"></div>
+
+  <script defer src="js/utils.js"></script>
+  <script defer src="js/core/filters.js"></script>
+  <script defer src="js/core/quickJoin.js"></script>
+  <script defer src="js/core/timeBank.js"></script>
+  <script defer src="js/core/countdown.js"></script>
+  <script defer src="js/core/gameActions.js"></script>
+  <script defer src="js/core/notifications.js"></script>
+  <script defer src="js/chat.js"></script>
+  <script defer src="js/copilot-chat.js"></script>
+  <script defer src="js/core/analytics.js"></script>
+  <script defer src="js/core/i18n.js"></script>
+</body>
+</html>
