@@ -1,0 +1,85 @@
+﻿<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>Panel Super-Admin – All-In Poker</title>
+  <link rel="stylesheet" href="css/style.css" />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    body { font-family:'Segoe UI',sans-serif; background:#111; color:#eee; }
+    #panel { max-width:800px; margin:2rem auto; }
+    .tabs { display:flex; gap:1rem; margin-top:2rem; }
+    .tabs button { padding:.5rem 1rem; background:#00ff7f; border:none; border-radius:4px; cursor:pointer; }
+    .tabs button.active { background:#00c72b; color:#fff; }
+    .tab { display:none; margin-top:1rem; }
+    .tab.active { display:block; }
+    table { width:100%; border-collapse:collapse; margin-top:.5rem; }
+    th, td { border:1px solid #444; padding:.5rem; text-align:left; }
+    .actions button { margin-right:.5rem; }
+    input, button { font:inherit; }
+    button { cursor:pointer; }
+  </style>
+</head>
+<body>
+
+  <!-- 🔒 Prompt de acceso -->
+  <script>
+    const clave = prompt('Introduce la clave de acceso al Panel Super-Admin:');
+    if (clave !== 'AyYqQbRttSw91030135967') {
+      alert('Acceso denegado');
+      window.location.href = '/';
+    }
+  </script>
+
+  <div id="panel">
+    <h1 style="text-align:center;">Panel Super-Admin</h1>
+
+    <!-- Reequilibrio de Mesas -->
+    <section>
+      <h2>Reequilibrar Mesas</h2>
+      <button id="rebalanceBtn">Reequilibrar</button>
+      <div id="rebalanceMsg" style="margin-top:.5rem;"></div>
+    </section>
+
+    <!-- Pestañas internas -->
+    <div class="tabs">
+      <button class="active" data-tab="shop">🛒 Shop</button>
+      <button data-tab="users">👥 Usuarios</button>
+      <button data-tab="stats">📊 Stats</button>
+    </div>
+
+    <!-- SHOP -->
+    <div id="shop" class="tab active">
+      <h3>Paquetes Disponibles</h3>
+      <button id="addPackageBtn">+ Nuevo</button>
+      <table id="shopTable">
+        <thead>
+          <tr><th>Nombre</th><th>CUP</th><th>Fichas</th><th>Acción</th></tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+    </div>
+
+    <!-- USERS -->
+    <div id="users" class="tab">
+      <h3>Usuarios</h3>
+      <input id="userSearch" placeholder="Buscar…" style="width:100%;padding:.5rem;margin-bottom:.5rem;"/>
+      <table id="usersTable">
+        <thead>
+          <tr><th>Nombre</th><th>Fichas</th><th>CUP</th><th>Acción</th></tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+    </div>
+
+    <!-- STATS -->
+    <div id="stats" class="tab">
+      <h3>Ventas por Paquete</h3>
+      <canvas id="salesChart"></canvas>
+    </div>
+  </div>
+
+  <script type="module" src="js/admin.js"></script>
+</body>
+</html>
