@@ -1,0 +1,39 @@
+﻿<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Panel Admin • All-In Poker</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/admin.css">
+</head>
+<body>
+  <header class="navbar">
+    <img src="assets/logo-3d.png" class="logo" />
+    <nav>
+      <a href="index.html">Lobby</a>
+      <a href="dashboard.html">Dashboard</a>
+    </nav>
+  </header>
+
+  <main id="admin-panel">
+    <aside>
+      <ul>
+        <li><button data-section="config">Configuración General</button></li>
+        <li><button data-section="torneos">Torneos</button></li>
+        <li><button data-section="usuarios">Usuarios</button></li>
+        <li><button data-section="multimedia">Multimedia</button></li>
+        <li><button data-section="reportes">Reportes</button></li>
+        <li><button data-section="mensajes">Mensajes</button></li>
+      </ul>
+    </aside>
+    <section id="admin-content">
+      <!-- Aquí se inyectarán los paneles desde JS -->
+    </section>
+  </main>
+
+  <script defer src="js/core/mttDashboard.js"></script>
+  <script defer src="js/core/notifications.js"></script>
+  <script defer src="js/core/analytics.js"></script>
+</body>
+</html>

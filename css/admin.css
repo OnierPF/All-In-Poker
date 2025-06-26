@@ -1,0 +1,37 @@
+﻿/* Panel Admin */
+#admin-panel {
+  display: flex;
+  height: calc(100vh - 60px);
+}
+#admin-panel aside {
+  width: 200px;
+  background: var(--bg-light);
+  padding: 1rem;
+  border-right: 1px solid var(--bg-dark);
+}
+#admin-panel aside ul {
+  list-style: none;
+}
+#admin-panel aside li + li {
+  margin-top: 0.5rem;
+}
+#admin-panel aside button {
+  width: 100%;
+  text-align: left;
+  padding: 0.5rem;
+  background: none;
+  border: none;
+  color: var(--text-light);
+  font-size: 1rem;
+  cursor: pointer;
+}
+#admin-panel aside button:hover,
+#admin-panel aside button.active {
+  background: var(--primary);
+  color: var(--text-dark);
+}
+#admin-content {
+  flex: 1;
+  padding: 1.5rem;
+  overflow-y: auto;
+}
