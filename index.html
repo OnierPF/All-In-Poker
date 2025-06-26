@@ -30,7 +30,6 @@
       <a href="dashboard.html">Dashboard</a>
       <a href="contact.html">Contacto</a>
     </nav>
-
     <button id="toggle-theme">🌙</button>
     <button id="daily-bonus-btn" title="Reclamar bono diario">🎁</button>
     <button id="buy-chips-btn" title="Comprar fichas por CUP">💰</button>
@@ -39,11 +38,11 @@
       <option value="es">ES</option>
       <option value="en">EN</option>
     </select>
-
     <div id="profile-info" style="margin-left:1rem; color: #eee;"></div>
   </header>
 
   <main id="lobby" class="grid-layout">
+    <!-- Sidebar existente -->
     <aside id="sidebar">
       <h2>Filtros</h2>
       <div class="filter-group">
@@ -65,6 +64,19 @@
     </aside>
     <div id="sidebar-overlay"></div>
 
+    <!-- NUEVA Sección: Mesas Gratis -->
+    <section id="free-tables">
+      <h2>Mesas Gratis</h2>
+      <template id="free-table-item-tpl">
+        <div class="table-card">
+          <h3 class="table-title"></h3>
+          <p class="table-info"></p>
+          <button class="join-free-btn">Entrar Gratis</button>
+        </div>
+      </template>
+    </section>
+
+    <!-- Sección de Mesas de Valor (existente) -->
     <section id="tables">
       <template id="table-item-tpl">
         <div class="table-card">
@@ -79,7 +91,9 @@
   <div id="chat-container"></div>
   <div id="toast-container"></div>
 
+  <!-- Scripts -->
   <script type="module" src="js/utils.js"></script>
+  <script type="module" src="js/core/freeTables.js"></script>
   <script type="module" src="js/core/filters.js"></script>
   <script type="module" src="js/core/quickJoin.js"></script>
   <script type="module" src="js/core/timeBank.js"></script>
