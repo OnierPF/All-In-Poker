@@ -1,5 +1,5 @@
 ﻿/* ============================= */
-/*  style.css — All-In Poker v4  */
+/*  style.css — All-In Poker v5  */
 /* ============================= */
 
 /* Reset básico */
@@ -16,6 +16,7 @@ html, body {
   background-color: #111;
   color: #eee;
   line-height: 1.4;
+  overflow-x: hidden;
 }
 img {
   max-width: 100%;
@@ -32,6 +33,7 @@ img {
   --bg-light:   #222;
   --text-light: #eee;
   --text-dark:  #111;
+  --overlay:    rgba(0,0,0,0.6);
 }
 
 /* ============================= */
@@ -45,7 +47,6 @@ img {
   box-shadow: 0 4px 8px rgba(0,0,0,0.5);
   position: relative;
 }
-/* Pulso suave en logo */
 .navbar .logo {
   height: 40px;
   animation: pulse 2s ease-in-out infinite;
@@ -103,17 +104,6 @@ main.grid-layout {
   height: calc(100% - 60px);
   transition: all .3s;
 }
-aside#sidebar {
-  background: var(--bg-light);
-  padding: 1rem;
-  overflow-y: auto;
-  transition: all .3s;
-  z-index: 1000;
-  position: relative;
-}
-aside#sidebar.active {
-  left: 0;
-}
 section#tables {
   padding: 1rem;
   overflow-y: auto;
@@ -122,9 +112,45 @@ section#tables {
   gap: 1rem;
 }
 
+/* Overlay al abrir sidebar */
+#sidebar-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: var(--overlay);
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity .3s ease;
+  z-index: 900;
+}
+
 /* ============================= */
-/*      Grupos de filtros        */
+/*       Sidebar & filtros       */
 /* ============================= */
+aside#sidebar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 80%;
+  max-width: 280px;
+  height: 100%;
+  background: var(--bg-light);
+  padding: 1rem;
+  transform: translateX(-100%);
+  transition: transform .3s ease;
+  z-index: 1000;
+  overflow-y: auto;
+}
+aside#sidebar.active {
+  transform: translateX(0);
+}
+aside#sidebar.active ~ #sidebar-overlay {
+  opacity: 1;
+  visibility: visible;
+}
+
 .filter-group {
   margin-bottom: 1rem;
 }
@@ -142,6 +168,11 @@ section#tables {
   text-align: right;
   color: var(--text-light);
 }
+button#apply-filters,
+button#quick-join {
+  width: 100%;
+  margin-bottom: 1rem;
+}
 
 /* ============================= */
 /*       Tarjetas de mesa        */
@@ -157,7 +188,6 @@ section#tables {
   box-shadow: 2px 4px 6px rgba(0,0,0,0.4);
   transition: transform .2s, box-shadow .2s;
 }
-/* Hover: elevación + ligero aumento de escala + glow */
 .table-card:hover {
   transform: translateY(-6px) scale(1.03);
   box-shadow: 0 8px 16px rgba(0,255,127,0.5),
@@ -215,24 +245,12 @@ body.dark-mode {
   background-color: var(--text-light);
   color: var(--text-dark);
 }
-body.dark-mode .navbar {
-  background: var(--text-light);
-}
-body.dark-mode .navbar a {
-  color: var(--text-dark);
-}
-body.dark-mode .navbar a.active,
-body.dark-mode .navbar a:hover {
-  background: var(--accent);
-  color: var(--text-light);
-  box-shadow: 0 4px 8px rgba(0,0,0,0.3);
-}
-body.dark-mode aside#sidebar {
-  background: var(--text-light);
-}
+body.dark-mode .navbar,
+body.dark-mode aside#sidebar,
 body.dark-mode section#tables {
   background: var(--text-light);
 }
+body.dark-mode .navbar a,
 body.dark-mode .filter-group label,
 body.dark-mode .filter-group output {
   color: var(--text-dark);
@@ -242,7 +260,6 @@ body.dark-mode input[type="range"] {
 }
 body.dark-mode input,
 body.dark-mode select,
-body.dark-mode output,
 body.dark-mode button {
   background: var(--text-light);
   color: var(--text-dark);
@@ -259,14 +276,6 @@ body.dark-mode .table-card:hover {
   box-shadow: 0 8px 16px rgba(0,255,127,0.3),
               0 0 12px rgba(0,255,127,0.2);
 }
-body.dark-mode .join-btn {
-  background: var(--primary);
-  color: var(--text-dark);
-  box-shadow: 0 4px 8px rgba(0,0,0,0.3);
-}
-body.dark-mode .join-btn:hover {
-  box-shadow: 0 8px 12px rgba(0,0,0,0.4);
-}
 
 /* ============================= */
 /*     Responsive & hamburguesa  */
@@ -277,19 +286,6 @@ body.dark-mode .join-btn:hover {
   }
   #mobile-menu-btn {
     display: block;
-  }
-  aside#sidebar {
-    position: fixed;
-    top: 0;
-    left: -100%;
-    width: 80%;
-    max-width: 280px;
-    height: 100%;
-    transition: left .3s ease;
-    z-index: 1000;
-  }
-  aside#sidebar.active {
-    left: 0;
   }
   section#tables {
     padding-top: 60px;

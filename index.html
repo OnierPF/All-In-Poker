@@ -59,6 +59,7 @@
       <hr>
       <button id="quick-join" data-i18n-key="filters.quickJoin">Unirse Rápido</button>
     </aside>
+    <div id="sidebar-overlay"></div>
 
     <section id="tables">
       <template id="table-item-tpl">
@@ -74,7 +75,6 @@
   <div id="chat-container"></div>
   <div id="toast-container"></div>
 
-  <!-- Todos los scripts con export ahora cargan como módulos -->
   <script type="module" src="js/utils.js"></script>
   <script type="module" src="js/core/filters.js"></script>
   <script type="module" src="js/core/quickJoin.js"></script>
@@ -88,13 +88,18 @@
   <script type="module" src="js/core/settingsPanel.js"></script>
   <script type="module" src="js/core/i18n.js"></script>
 
-  <!-- Menú hamburguesa -->
   <script>
     document.addEventListener('DOMContentLoaded', () => {
       const mobileBtn = document.getElementById('mobile-menu-btn');
       const sidebar   = document.getElementById('sidebar');
+      const overlay   = document.getElementById('sidebar-overlay');
       mobileBtn.addEventListener('click', () => {
         sidebar.classList.toggle('active');
+        overlay.classList.toggle('active');
+      });
+      overlay.addEventListener('click', () => {
+        sidebar.classList.remove('active');
+        overlay.classList.remove('active');
       });
     });
   </script>
