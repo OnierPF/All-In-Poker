@@ -3,39 +3,43 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
-  <title>All-In Poker • Panel Super-Admin</title>
+  <title>Panel Super-Admin - All-In Poker</title>
   <link rel="stylesheet" href="css/style.css" />
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <style>
-    /* Estilos específicos para el Panel Admin */
-    #loginContainer, #adminPanel { max-width: 800px; margin: 2rem auto; }
-    #adminPanel { display: none; }
-    .admin-tabs { display: flex; gap: 1rem; margin-top: 2rem; }
-    .tab-btn { padding: .5rem 1rem; background: #00ff7f; border: none; cursor: pointer; border-radius: 4px; color: #111; }
-    .tab-btn.active { background: #00c72b; color: #fff; }
-    .tab { display: none; margin-top: 1rem; }
-    .tab.active { display: block; }
-    table { width: 100%; border-collapse: collapse; margin-top: .5rem; }
-    table th, table td { border: 1px solid #444; padding: .5rem; }
-    .actions button { margin-right: .5rem; }
-    #userSearch { width: 100%; padding: .5rem; margin-bottom: .5rem; }
-    button { cursor: pointer; }
+    /* ===================================== */
+    /* Estilos específicos para Panel Admin  */
+    /* ===================================== */
+    body { font-family: 'Segoe UI', sans-serif; background:#111; color:#eee; }
+    #loginContainer, #adminPanel { max-width:800px; margin:2rem auto; }
+    .admin-tabs { display:flex; gap:1rem; margin-top:2rem; }
+    .tab-btn { padding:.5rem 1rem; background:#00ff7f; border:none; cursor:pointer; border-radius:4px; color:#111; }
+    .tab-btn.active { background:#00c72b; color:#fff; }
+    .tab { display:none; margin-top:1rem; }
+    .tab.active { display:block; }
+    table { width:100%; border-collapse:collapse; margin-top:.5rem; }
+    th, td { border:1px solid #444; padding:.5rem; }
+    .actions button { margin-right:.5rem; }
+    input,button { font:inherit; }
+    button { cursor:pointer; }
   </style>
 </head>
 <body>
+
+  <!-- 🔒 Protección: prompt de contraseña -->
+  <script>
+    const pwd = prompt('Clave de acceso al Panel Super-Admin:');
+    if (pwd !== 'TuClaveSecreta') {
+      alert('Acceso denegado');
+      window.location.href = '/';
+    }
+  </script>
+
   <h1 style="text-align:center;">Panel Super-Admin</h1>
 
-  <!-- LOGIN -->
-  <div id="loginContainer">
-    <form id="adminLoginForm" style="display:flex; flex-direction:column; gap:.5rem;">
-      <input type="text" id="username" placeholder="Usuario" required />
-      <input type="password" id="password" placeholder="Contraseña" required />
-      <button type="submit">Iniciar Sesión</button>
-    </form>
-    <div id="loginError" style="color:red; margin-top:.5rem;"></div>
-  </div>
+  <!-- LOGIN oculto: acceso instantáneo tras prompt-->
+  <div id="loginContainer" style="display:none;"></div>
 
-  <!-- PANEL -->
   <div id="adminPanel">
     <!-- Límites Mensuales -->
     <section id="monthlyLimitsSection">
@@ -56,7 +60,7 @@
       <div id="rebalanceMsg" style="margin-top:.5rem;"></div>
     </section>
 
-    <!-- Navegación entre pestañas -->
+    <!-- Pestañas de gestión -->
     <div class="admin-tabs">
       <button class="tab-btn active" data-tab="shopTab">🛒 Shop</button>
       <button class="tab-btn" data-tab="usersTab">👥 Usuarios</button>
@@ -76,7 +80,7 @@
     <!-- USER MANAGEMENT -->
     <section id="usersTab" class="tab">
       <h2>Listado de Usuarios</h2>
-      <input id="userSearch" placeholder="Buscar por nombre…" />
+      <input id="userSearch" placeholder="Buscar por nombre…" style="width:100%; padding:.5rem;"/>
       <table id="usersTable">
         <thead><tr><th>Nombre</th><th>Fichas</th><th>CUP</th><th>Acciones</th></tr></thead>
         <tbody></tbody>
