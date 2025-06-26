@@ -1,5 +1,5 @@
 ﻿/* ============================= */
-/*  style.css — All-In Poker v3  */
+/*  style.css — All-In Poker v4  */
 /* ============================= */
 
 /* Reset básico */
@@ -45,18 +45,14 @@ img {
   box-shadow: 0 4px 8px rgba(0,0,0,0.5);
   position: relative;
 }
+/* Pulso suave en logo */
 .navbar .logo {
   height: 40px;
-  /* Pulso: escala del 100% al 110% en 2s */
   animation: pulse 2s ease-in-out infinite;
 }
 @keyframes pulse {
-  0%, 100% {
-    transform: scale(1);
-  }
-  50% {
-    transform: scale(1.1);
-  }
+  0%, 100% { transform: scale(1); }
+  50%      { transform: scale(1.1); }
 }
 #mobile-menu-btn {
   display: none;
@@ -159,30 +155,13 @@ section#tables {
   flex-direction: column;
   align-items: center;
   box-shadow: 2px 4px 6px rgba(0,0,0,0.4);
-  transition: transform .2s;
-}
-.table-card:hover {
-  transform: translateY(-4px);
-}
-.table-card .table-title {
-  font-size: 1.1rem;
-  margin-bottom: 0.5rem;
-  color: var(--text-light);
-}
-.table-card .join-btn {
-  margin-top: auto;
-  padding: 0.5rem 1rem;
-  background: var(--primary);
-  border: none;
-  color: var(--text-dark);
-  border-radius: 4px;
-  cursor: pointer;
-  box-shadow: 0 4px 8px rgba(0,0,0,0.4);
   transition: transform .2s, box-shadow .2s;
 }
-.table-card .join-btn:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 8px 12px rgba(0,0,0,0.5);
+/* Hover: elevación + ligero aumento de escala + glow */
+.table-card:hover {
+  transform: translateY(-6px) scale(1.03);
+  box-shadow: 0 8px 16px rgba(0,255,127,0.5),
+              0 0 12px rgba(0,255,127,0.3);
 }
 
 /* ============================= */
@@ -276,7 +255,9 @@ body.dark-mode .table-card {
   box-shadow: 2px 4px 6px rgba(0,0,0,0.3);
 }
 body.dark-mode .table-card:hover {
-  transform: translateY(-4px);
+  transform: translateY(-6px) scale(1.03);
+  box-shadow: 0 8px 16px rgba(0,255,127,0.3),
+              0 0 12px rgba(0,255,127,0.2);
 }
 body.dark-mode .join-btn {
   background: var(--primary);
