@@ -1,85 +1,267 @@
 ﻿<!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1"/>
-  <title>Panel Super-Admin – All-In Poker</title>
-  <link rel="stylesheet" href="css/style.css" />
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <meta charset="UTF-8">
+  <title>Super-Admin • All-In Poker</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="css/style.css">
   <style>
-    body { font-family:'Segoe UI',sans-serif; background:#111; color:#eee; }
-    #panel { max-width:800px; margin:2rem auto; }
-    .tabs { display:flex; gap:1rem; margin-top:2rem; }
-    .tabs button { padding:.5rem 1rem; background:#00ff7f; border:none; border-radius:4px; cursor:pointer; }
-    .tabs button.active { background:#00c72b; color:#fff; }
-    .tab { display:none; margin-top:1rem; }
+    /* Estilos mínimos para tabs y layout */
+    body { font-family: Arial, sans-serif; background: #f4f4f4; margin:0; padding:20px; }
+    #loginContainer, #adminPanel {
+      max-width:800px; margin:auto; background:#fff;
+      padding:20px; box-shadow:0 0 10px rgba(0,0,0,0.1);
+      border-radius:4px; margin-bottom:20px;
+    }
+    h1, h2 { text-align:center; }
+    input, button, select, textarea { padding:8px; margin:4px 0; width:100%; box-sizing:border-box; }
+    button.btn { background:#00ffc3; border:none; border-radius:4px; cursor:pointer; }
+    button.btn:hover { background:#00ff91; }
+    .admin-tabs { display:flex; flex-wrap:wrap; gap:6px; justify-content:center; margin-bottom:20px; }
+    .admin-tabs button { padding:8px 12px; border:none; border-radius:4px; background:#222; color:#fff; cursor:pointer; }
+    .admin-tabs button.active { background:#00ffc3; color:#000; }
+    .tab { display:none; }
     .tab.active { display:block; }
-    table { width:100%; border-collapse:collapse; margin-top:.5rem; }
-    th, td { border:1px solid #444; padding:.5rem; text-align:left; }
-    .actions button { margin-right:.5rem; }
-    input, button { font:inherit; }
-    button { cursor:pointer; }
+    table { width:100%; border-collapse:collapse; margin-top:10px; }
+    th, td { border:1px solid #ccc; padding:8px; text-align:center; }
+    th { background:#222; color:#fff; }
+    .smallText { font-size:0.9em; color:#555; }
+    #loginError { color:red; text-align:center; }
   </style>
 </head>
 <body>
 
-  <!-- 🔒 Prompt de acceso -->
-  <script>
-    const clave = prompt('Introduce la clave de acceso al Panel Super-Admin:');
-    if (clave !== 'AyYqQbRttSw91030135967.') {
-      alert('Acceso denegado');
-      window.location.href = '/';
-    }
-  </script>
-
-  <div id="panel">
-    <h1 style="text-align:center;">Panel Super-Admin</h1>
-
-    <!-- Reequilibrio de Mesas -->
-    <section>
-      <h2>Reequilibrar Mesas</h2>
-      <button id="rebalanceBtn">Reequilibrar</button>
-      <div id="rebalanceMsg" style="margin-top:.5rem;"></div>
-    </section>
-
-    <!-- Pestañas internas -->
-    <div class="tabs">
-      <button class="active" data-tab="shop">🛒 Shop</button>
-      <button data-tab="users">👥 Usuarios</button>
-      <button data-tab="stats">📊 Stats</button>
-    </div>
-
-    <!-- SHOP -->
-    <div id="shop" class="tab active">
-      <h3>Paquetes Disponibles</h3>
-      <button id="addPackageBtn">+ Nuevo</button>
-      <table id="shopTable">
-        <thead>
-          <tr><th>Nombre</th><th>CUP</th><th>Fichas</th><th>Acción</th></tr>
-        </thead>
-        <tbody></tbody>
-      </table>
-    </div>
-
-    <!-- USERS -->
-    <div id="users" class="tab">
-      <h3>Usuarios</h3>
-      <input id="userSearch" placeholder="Buscar…" style="width:100%;padding:.5rem;margin-bottom:.5rem;"/>
-      <table id="usersTable">
-        <thead>
-          <tr><th>Nombre</th><th>Fichas</th><th>CUP</th><th>Acción</th></tr>
-        </thead>
-        <tbody></tbody>
-      </table>
-    </div>
-
-    <!-- STATS -->
-    <div id="stats" class="tab">
-      <h3>Ventas por Paquete</h3>
-      <canvas id="salesChart"></canvas>
-    </div>
+  <!-- LOGIN -->
+  <div id="loginContainer">
+    <h1>Super-Admin Login</h1>
+    <form id="adminLoginForm">
+      <input type="text" id="username" placeholder="Usuario" required>
+      <input type="password" id="password" placeholder="Contraseña" required>
+      <button type="submit" class="btn">Iniciar Sesión</button>
+    </form>
+    <div id="loginError"></div>
   </div>
 
-  <script type="module" src="js/admin.js"></script>
+  <!-- PANEL -->
+  <div id="adminPanel" style="display:none;">
+    <h1>Panel de Administración</h1>
+
+    <!-- BARRA DE TABS -->
+    <div class="admin-tabs">
+      <button data-tab="purchasesTab">🛍️ Compras</button>
+      <button data-tab="socialTab">🌐 Redes</button>
+      <button data-tab="conversionTab">💱 Conversión</button>
+      <button data-tab="monthlyTab">📆 Límites</button>
+      <button data-tab="tournamentsTab">🏆 Torneos</button>
+      <button data-tab="rebalanceTab">🔄 Reequilibrar</button>
+      <button data-tab="customDealTab">🎲 Custom Deals</button>
+      <button data-tab="walletTab">💼 Wallet</button>
+      <button data-tab="aiTab">🤖 IA</button>
+      <button data-tab="alertsTab">🚨 Alertas</button>
+      <button data-tab="resourcesTab">⏱️ Recursos</button>
+      <button data-tab="multimediaTab">🎥 Multimedia</button>
+    </div>
+
+    <!-- 1. Compras de Fichas -->
+    <section id="purchasesTab" class="tab">
+      <h2>Solicitudes de Compra de Fichas</h2>
+      <table id="requestsTable">
+        <thead>
+          <tr>
+            <th>ID</th><th>Usuario</th><th>Monto</th><th>Moneda</th>
+            <th>Tarjeta</th><th>Validación</th><th>Fecha</th>
+            <th>Comprobante</th><th>Acciones</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+    </section>
+
+    <!-- 2. Enlaces Sociales -->
+    <section id="socialTab" class="tab">
+      <h2>Enlaces de Redes Sociales</h2>
+      <form id="socialLinksForm">
+        <input type="url" id="instagramLink" placeholder="URL de Instagram" required>
+        <input type="url" id="xLink" placeholder="URL de X (Twitter)" required>
+        <input type="url" id="facebookLink" placeholder="URL de Facebook" required>
+        <input type="url" id="youtubeLink" placeholder="URL de YouTube" required>
+        <button type="submit" class="btn">Guardar Enlaces</button>
+      </form>
+      <div id="socialLinksDisplay"></div>
+    </section>
+
+    <!-- 3. Tasa de Conversión -->
+    <section id="conversionTab" class="tab">
+      <h2>Tasa de Conversión MLC → CUP</h2>
+      <p>1 MLC = <strong id="cr-currentRate">390</strong> CUP</p>
+      <form id="cr-form">
+        <input type="number" id="cr-newRate" placeholder="Nueva tasa" min="1" required>
+        <button type="submit" class="btn">Actualizar Tasa</button>
+      </form>
+      <div id="cr-msg"></div>
+    </section>
+
+    <!-- 4. Límites Mensuales -->
+    <section id="monthlyTab" class="tab">
+      <h2>Configuración de Límites Mensuales</h2>
+      <p>CUP: <strong id="ml-currentLimitCUP">120000</strong> | MLC: <strong id="ml-currentLimitMLC">120000</strong></p>
+      <p>Días restantes: <strong id="ml-daysLeft">0</strong></p>
+      <p>Límite diario disponible: CUP <strong id="ml-dailyCUP">0.00</strong>, MLC <strong id="ml-dailyMLC">0.00</strong></p>
+      <form id="ml-form">
+        <input type="number" id="ml-newLimitCUP" placeholder="Nuevo límite CUP" required>
+        <input type="number" id="ml-newLimitMLC" placeholder="Nuevo límite MLC" required>
+        <button type="submit" class="btn">Actualizar Límites</button>
+      </form>
+      <div id="ml-msg"></div>
+    </section>
+
+    <!-- 5. Configuración de Torneos -->
+    <section id="tournamentsTab" class="tab">
+      <h2>Configuración de Torneos</h2>
+      <form id="tournamentConfigForm">
+        <label for="maxPlayers">Nº máximo de participantes:</label>
+        <input type="number" id="maxPlayers" placeholder="0 = ilimitado">
+        <p class="smallText">0 o vacío → ilimitado.</p>
+        <label for="lateJoinTime">Tiempo de entrada tardía (min):</label>
+        <input type="number" id="lateJoinTime" placeholder="Ej. 10">
+        <p class="smallText">Minutos tras inicio para inscripciones.</p>
+        <button type="submit" class="btn">Guardar</button>
+      </form>
+      <div id="tournamentConfigMsg"></div>
+    </section>
+
+    <!-- 6. Reequilibrar Mesas -->
+    <section id="rebalanceTab" class="tab">
+      <h2>Reequilibrar Mesas</h2>
+      <form id="rebalanceForm">
+        <label for="minPlayers">Jugadores mínimos / mesa:</label>
+        <input type="number" id="minPlayers" value="2" min="1" required>
+        <button type="submit" class="btn">Aplicar Rebalance</button>
+      </form>
+      <div id="rebalanceMsg"></div>
+    </section>
+
+    <!-- 7. Custom Deals -->
+    <section id="customDealTab" class="tab">
+      <h2>Forzar Cartas en la Mesa</h2>
+      <label for="mesaIdInput">ID de la Mesa:</label>
+      <input type="text" id="mesaIdInput" placeholder="Ej: mesa1">
+      <label for="flop">Cartas del Flop:</label>
+      <input type="text" id="flop" placeholder="As-Kd-9c">
+      <label for="turn">Turn:</label>
+      <input type="text" id="turn" placeholder="7s">
+      <label for="river">River:</label>
+      <input type="text" id="river" placeholder="Qh">
+      <button id="sendCustomDealBtn" class="btn">Guardar Deal</button>
+      <div id="customDealMsg"></div>
+    </section>
+
+    <!-- 8. Wallet Admin -->
+    <section id="walletTab" class="tab">
+      <h2>Wallet Admin</h2>
+      <p>CUP disponible: <strong id="wallet-cup">…</strong></p>
+      <p>MLC disponible: <strong id="wallet-mlc">…</strong></p>
+      <p>Fichas internas: <strong id="wallet-internal">∞</strong></p>
+    </section>
+
+    <!-- 9. Admin IA -->
+    <section id="aiTab" class="tab">
+      <h2>Control por Voz & Sugerencias</h2>
+      <p>Habla comandos como “crear torneo”, “mostrar estadísticas”, etc.</p>
+      <div id="adminIASuggestions"></div>
+    </section>
+
+    <!-- 10. Alertas -->
+    <section id="alertsTab" class="tab">
+      <h2>Alertas del Sistema</h2>
+      <!-- El AlertManager inyectará aquí el panel flotante -->
+    </section>
+
+    <!-- 11. Recursos -->
+    <section id="resourcesTab" class="tab">
+      <h2>Monitor de Recursos</h2>
+      <!-- El ResourceMonitor mostrará el contador flotante -->
+    </section>
+
+    <!-- 12. Multimedia -->
+    <section id="multimediaTab" class="tab">
+      <h2>Gestión de Contenido Multimedia</h2>
+      <form id="multimediaForm" enctype="multipart/form-data">
+        <input type="file" id="mediaFile" name="mediaFile" accept="image/*,video/*" required>
+        <input type="text" id="mediaTitle" placeholder="Título" required>
+        <textarea id="mediaDescription" placeholder="Descripción (opcional)"></textarea>
+        <button type="submit" class="btn">Subir Contenido</button>
+      </form>
+      <div id="multimediaMsg"></div>
+    </section>
+
+  </div>
+
+  <!-- SCRIPTS: carga y arranca módulos -->
+  <script type="module">
+    import { initPurchaseRequests }   from './js/admin/purchaseRequests.js';
+    import { initSocialLinks }        from './js/admin/socialLinks.js';
+    import { initConversionRate }     from './js/admin/conversionRate.js';
+    import { initMonthlyLimits }      from './js/admin/monthlyLimits.js';
+    import { initTournamentConfig }   from './js/admin/tournamentConfig.js';
+    import { initTableRebalance }     from './js/admin/tableRebalance.js';
+    import { initCustomDeal }         from './js/admin/customDeal.js';
+    import { initWallet }             from './js/admin/wallet.js';
+    import { AdminIAAdvanced }        from './js/admin/adminIA.js';
+    import { initResourceMonitor }    from './js/admin/resourceMonitor.js';
+    import { initMultimedia }         from './js/admin/multimedia.js';
+
+    // Navegación de tabs
+    document.querySelectorAll('.admin-tabs button').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.admin-tabs button').forEach(b=>b.classList.remove('active'));
+        document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+        btn.classList.add('active');
+        document.getElementById(btn.dataset.tab).classList.add('active');
+      });
+    });
+
+    // Login del admin
+    const API_URL = 'http://localhost:3000/api';
+    document.getElementById('adminLoginForm').addEventListener('submit', async e => {
+      e.preventDefault();
+      const user = document.getElementById('username').value.trim();
+      const pass = document.getElementById('password').value.trim();
+      try {
+        const res = await fetch(API_URL + '/admin/login', {
+          method:'POST',
+          headers:{'Content-Type':'application/json'},
+          credentials:'include',
+          body: JSON.stringify({ username: user, password: pass })
+        });
+        if (!res.ok) throw await res.json();
+        // Mostrar panel y arrancar tabs + módulos
+        document.getElementById('loginContainer').style.display='none';
+        document.getElementById('adminPanel').style.display='block';
+        // Activar primer tab
+        document.querySelector('.admin-tabs button').click();
+
+        // Inicializar módulos uno a uno
+        initPurchaseRequests();
+        initSocialLinks();
+        initConversionRate();
+        initMonthlyLimits();
+        initTournamentConfig();
+        initTableRebalance();
+        initCustomDeal();
+        initWallet();
+        // Voz & AI
+        const ia = new AdminIAAdvanced();
+        window.adminIAAdvanced = ia;
+        // Recursos & Alertas
+        initResourceMonitor(2000);
+        // Multimedia
+        initMultimedia();
+
+      } catch (err) {
+        document.getElementById('loginError').textContent = err.error || 'Credenciales inválidas';
+      }
+    });
+  </script>
 </body>
 </html>

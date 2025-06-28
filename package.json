@@ -1,0 +1,23 @@
+{
+  "name": "all-in-poker",
+  "version": "1.0.0",
+  "main": "pin.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/OnierPF/All-In-Poker.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/OnierPF/All-In-Poker/issues"
+  },
+  "homepage": "https://github.com/OnierPF/All-In-Poker#readme",
+  "description": "",
+  "devDependencies": {
+    "http-server": "^14.1.1"
+  }
+}
