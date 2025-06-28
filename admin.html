@@ -6,7 +6,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="css/style.css">
   <style>
-    /* Estilos mínimos para tabs y layout */
     body { font-family: Arial, sans-serif; background: #f4f4f4; margin:0; padding:20px; }
     #loginContainer, #adminPanel {
       max-width:800px; margin:auto; background:#fff;
@@ -62,7 +61,7 @@
       <button data-tab="multimediaTab">🎥 Multimedia</button>
     </div>
 
-    <!-- 1. Compras de Fichas -->
+    <!-- TABS -->
     <section id="purchasesTab" class="tab">
       <h2>Solicitudes de Compra de Fichas</h2>
       <table id="requestsTable">
@@ -77,7 +76,6 @@
       </table>
     </section>
 
-    <!-- 2. Enlaces Sociales -->
     <section id="socialTab" class="tab">
       <h2>Enlaces de Redes Sociales</h2>
       <form id="socialLinksForm">
@@ -90,7 +88,6 @@
       <div id="socialLinksDisplay"></div>
     </section>
 
-    <!-- 3. Tasa de Conversión -->
     <section id="conversionTab" class="tab">
       <h2>Tasa de Conversión MLC → CUP</h2>
       <p>1 MLC = <strong id="cr-currentRate">390</strong> CUP</p>
@@ -101,7 +98,6 @@
       <div id="cr-msg"></div>
     </section>
 
-    <!-- 4. Límites Mensuales -->
     <section id="monthlyTab" class="tab">
       <h2>Configuración de Límites Mensuales</h2>
       <p>CUP: <strong id="ml-currentLimitCUP">120000</strong> | MLC: <strong id="ml-currentLimitMLC">120000</strong></p>
@@ -115,7 +111,6 @@
       <div id="ml-msg"></div>
     </section>
 
-    <!-- 5. Configuración de Torneos -->
     <section id="tournamentsTab" class="tab">
       <h2>Configuración de Torneos</h2>
       <form id="tournamentConfigForm">
@@ -130,7 +125,6 @@
       <div id="tournamentConfigMsg"></div>
     </section>
 
-    <!-- 6. Reequilibrar Mesas -->
     <section id="rebalanceTab" class="tab">
       <h2>Reequilibrar Mesas</h2>
       <form id="rebalanceForm">
@@ -141,7 +135,6 @@
       <div id="rebalanceMsg"></div>
     </section>
 
-    <!-- 7. Custom Deals -->
     <section id="customDealTab" class="tab">
       <h2>Forzar Cartas en la Mesa</h2>
       <label for="mesaIdInput">ID de la Mesa:</label>
@@ -156,7 +149,6 @@
       <div id="customDealMsg"></div>
     </section>
 
-    <!-- 8. Wallet Admin -->
     <section id="walletTab" class="tab">
       <h2>Wallet Admin</h2>
       <p>CUP disponible: <strong id="wallet-cup">…</strong></p>
@@ -164,26 +156,22 @@
       <p>Fichas internas: <strong id="wallet-internal">∞</strong></p>
     </section>
 
-    <!-- 9. Admin IA -->
-    <section id="aiTab" class="tab">
+       <section id="aiTab" class="tab">
       <h2>Control por Voz & Sugerencias</h2>
       <p>Habla comandos como “crear torneo”, “mostrar estadísticas”, etc.</p>
       <div id="adminIASuggestions"></div>
     </section>
 
-    <!-- 10. Alertas -->
     <section id="alertsTab" class="tab">
       <h2>Alertas del Sistema</h2>
       <!-- El AlertManager inyectará aquí el panel flotante -->
     </section>
 
-    <!-- 11. Recursos -->
     <section id="resourcesTab" class="tab">
       <h2>Monitor de Recursos</h2>
       <!-- El ResourceMonitor mostrará el contador flotante -->
     </section>
 
-    <!-- 12. Multimedia -->
     <section id="multimediaTab" class="tab">
       <h2>Gestión de Contenido Multimedia</h2>
       <form id="multimediaForm" enctype="multipart/form-data">
@@ -194,7 +182,6 @@
       </form>
       <div id="multimediaMsg"></div>
     </section>
-
   </div>
 
   <!-- SCRIPTS: carga y arranca módulos -->
@@ -214,8 +201,8 @@
     // Navegación de tabs
     document.querySelectorAll('.admin-tabs button').forEach(btn => {
       btn.addEventListener('click', () => {
-        document.querySelectorAll('.admin-tabs button').forEach(b=>b.classList.remove('active'));
-        document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+        document.querySelectorAll('.admin-tabs button').forEach(b => b.classList.remove('active'));
+        document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
         btn.classList.add('active');
         document.getElementById(btn.dataset.tab).classList.add('active');
       });
@@ -229,19 +216,18 @@
       const pass = document.getElementById('password').value.trim();
       try {
         const res = await fetch(API_URL + '/admin/login', {
-          method:'POST',
-          headers:{'Content-Type':'application/json'},
-          credentials:'include',
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          credentials: 'include',
           body: JSON.stringify({ username: user, password: pass })
         });
         if (!res.ok) throw await res.json();
-        // Mostrar panel y arrancar tabs + módulos
-        document.getElementById('loginContainer').style.display='none';
-        document.getElementById('adminPanel').style.display='block';
-        // Activar primer tab
+
+        document.getElementById('loginContainer').style.display = 'none';
+        document.getElementById('adminPanel').style.display = 'block';
+
         document.querySelector('.admin-tabs button').click();
 
-        // Inicializar módulos uno a uno
         initPurchaseRequests();
         initSocialLinks();
         initConversionRate();
@@ -250,12 +236,11 @@
         initTableRebalance();
         initCustomDeal();
         initWallet();
-        // Voz & AI
+
         const ia = new AdminIAAdvanced();
         window.adminIAAdvanced = ia;
-        // Recursos & Alertas
+
         initResourceMonitor(2000);
-        // Multimedia
         initMultimedia();
 
       } catch (err) {
